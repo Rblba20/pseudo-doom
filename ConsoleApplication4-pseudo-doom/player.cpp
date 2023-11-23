@@ -59,7 +59,9 @@ void Player::handle_events(float dt)
         else if ((event.type == SDL_MOUSEBUTTONDOWN) && (menu->current == None) && (event.button.button == SDL_BUTTON_LEFT))
         {
             if (menu->current == None)
+            {
                 Fire();
+            }
            //std::cout << "I am here" << std::endl;
 
            

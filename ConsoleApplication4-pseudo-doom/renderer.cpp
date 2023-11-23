@@ -72,9 +72,9 @@ bool Renderer::init_sdl(const char* title, int width, int height)
 }
 
 
-SDL_Window* Renderer::give_window() {
-    return window;
-}
+//SDL_Window* Renderer::give_window() {
+//    return window;
+//}
 
 //##########
 //  DRAW
@@ -176,12 +176,15 @@ void Renderer::draw(int fps)
     if(menu->current == None)
     {
         //FPS weapon
-        int offset = screen_w / 2 + 100;
+      //  int offset = screen_w / 2 + 100;
+        int offset = screen_w / 2 - 155;
         if(player->display_flash)
         {
-            draw_2d_sprite(3, offset, screen_h - 400, 400.0);
+        //   draw_2d_sprite(3, offset, screen_h - 400, 400.0);
+           draw_2d_sprite(8, offset, screen_h - 350, 350);
+         //  SDL_Delay(100);
         }
-        draw_2d_sprite(0, offset, screen_h - 400, 400.0);
+        draw_2d_sprite(0, offset, screen_h - 350, 350);
 
         //draws crosshair
         int center = screen_w / 2;

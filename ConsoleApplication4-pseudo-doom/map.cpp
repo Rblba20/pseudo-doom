@@ -44,6 +44,7 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 		{
 			int id = y * w + x;
 			Uint32 pixel = get_pixel(map_tex, x, y);
+			//std::cout << pixel << std::endl;
 
 			if(pixel == 0) //black 0,0,0 : grass
 				map[id] = '0';

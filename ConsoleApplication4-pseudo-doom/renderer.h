@@ -18,13 +18,13 @@ class Renderer
         bool init_sdl(const char* title, int width, int height); //initializes SDL and necessary data for rendering
         void draw(int fps); //renders the game and UI and displays it
         ~Renderer();
-        SDL_Window* give_window();
+        //SDL_Window* give_window();
 
         //forbids copy constructor to avoid warning in c++11
         Renderer(const Renderer& r) = delete;
         Renderer& operator=(const Renderer& r) = delete;
         
-    private:
+    public:
         void set_pixel(int x, int y, Uint32 pixel); //sets a pixel on the screen
         Uint32 get_pixel_tex(int itex, int x, int y, bool sprite = false); //gets a pixel from the texture file
 
