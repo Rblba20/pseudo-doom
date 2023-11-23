@@ -1,12 +1,15 @@
 #include <iostream>
 #include <cmath>
 #include "player.h"
- 
+#include "renderer.h" 
+
+
+
 Player::Player(Map* ma, Menu* me) : display_flash(false), health(100), key_count(0), turkey_destruct(false), wall_destruct(false),
     hurt_sound(false), key_sound(false), x(3), y(3), angle(0), turn(0), walk_x(0), walk_y(0), pressed_keys(NULL), map(ma), menu(me)
 {
-    pressed_keys = new bool[7];
-    for(int i = 0; i < 7; i++)
+    pressed_keys = new bool[4];
+    for(int i = 0; i < 4; i++)
     {
         pressed_keys[i] = false;
     }
@@ -26,24 +29,58 @@ void Player::handle_events(float dt)
     while(SDL_PollEvent(&event))
     {
         //mouse button is clicked so we update the menu
-        if(event.type == SDL_MOUSEBUTTONDOWN)
+        if ((event.type == SDL_MOUSEBUTTONDOWN) && (menu->current != None)) {
             menu->mouse_down = true;
+        }
         //a key is pressed
-        else if(event.type == SDL_KEYDOWN)
-        {
+        else if (event.type == SDL_KEYDOWN) {
+            std::cout << "I am here" << std::endl;
             update_key(event.key.keysym.sym, true);
+        }
 
-            //weapon firing
-            if (event.key.keysym.sym == SDLK_SPACE)
-            {
-                if(menu->current == None)
-                    Fire();
-            }
+        // Mouse moved ?
+        else if ((event.type == SDL_MOUSEMOTION) && (menu->current == None)) {
+            // Get the relative movement of the mouse
+
+                       // Get the relative movement of the mouse
+            int mouseX = event.motion.xrel;
+
+            // Adjust turn based on mouse movement
+            turn = mouseX * turn_accel * dt;
+
+
+            std::cout << turn << std::endl;
+            angle += turn;
+            if (angle > M_PI)
+                angle -= 2 * M_PI;
+            if (angle < -M_PI)
+                angle += 2 * M_PI;
+        }
+        else if ((event.type == SDL_MOUSEBUTTONDOWN) && (menu->current == None) && (event.button.button == SDL_BUTTON_LEFT))
+        {
+            if (menu->current == None)
+                Fire();
+           //std::cout << "I am here" << std::endl;
+
+           
+
+                //weapon firing
+                //if (event.button.button == SDL_BUTTON_LEFT)
+                //{
+                //  //  std::cout << "Left button was pressed!" << std::endl;
+                //    if (menu->current == None)
+                //        Fire();
+                //}
+
+            
         }
         //a key is released
         else if(event.type == SDL_KEYUP)
         {
-            update_key(event.key.keysym.sym, false);
+           // std::cout << "Key_up" << std::endl;
+            if (event.type = SDL_KEYUP) {
+                update_key(event.key.keysym.sym, false);
+            }
 
             //pauses the game if the player presses Escape
             if(event.key.keysym.sym == SDLK_ESCAPE)
@@ -57,7 +94,8 @@ void Player::handle_events(float dt)
             //quits the game if the player is dead and presses Space or Escape
             if(menu->current == GameOver)
             {
-                if(event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_ESCAPE)
+              //  if(event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_ESCAPE)
+                if (event.key.keysym.sym == SDLK_ESCAPE)
                     menu->wants_to_quit = true;
             }
         }
@@ -73,9 +111,10 @@ void Player::handle_events(float dt)
     }
 
     //Forward - backward movement
-    if(pressed_keys[0])
-    //if (SDLK_UP)
+    if (pressed_keys[0]) {
+        //if (SDLK_UP)
         walk_y = speed * dt;
+    }
     else if(pressed_keys[2])
     //else if (SDLK_DOWN)
         walk_y = -speed * dt;
@@ -92,31 +131,14 @@ void Player::handle_events(float dt)
     else
         walk_x = 0;
 
-    //rotation
-    if(fabs(turn) < turn_max)
-    {
-        if(pressed_keys[5])
-            turn += turn_accel * dt;
-        else if(pressed_keys[4])
-            turn -= turn_accel * dt;
-    }
-    if((!pressed_keys[5] && turn > 0) || (!pressed_keys[4] && turn < 0))
-        turn = 0;
-
-    angle += turn;
-    if(angle > M_PI)
-        angle -= 2 * M_PI;
-    if(angle < -M_PI)   
-        angle += 2 * M_PI;
-
     float nx = x + (walk_y * cos(angle) + walk_x * cos(angle + M_PI / 2.0)) * 0.1;
     float ny = y + (walk_y * sin(angle) + walk_x * sin(angle + M_PI / 2.0)) * 0.1;
 
-    if(int(nx) >= 0 && int(nx) < map->w && int(ny) >= 0 && int(ny) < map->h)
+    if (int(nx) >= 0 && int(nx) < map->w && int(ny) >= 0 && int(ny) < map->h)
     {
-        if(map->get_tile(int(nx), int(y)) == ' ')
+        if (map->get_tile(int(nx), int(y)) == ' ')
             x = nx;
-        if(map->get_tile(int(x), int(ny)) == ' ')
+        if (map->get_tile(int(x), int(ny)) == ' ')
             y = ny;
     }
 }
@@ -134,9 +156,6 @@ void Player::update_key(SDL_Keycode key, bool state)
      else if (key == 'a' && menu->current != Pause) pressed_keys[1] = state;
      else if (key == 's' && menu->current != Pause) pressed_keys[2] = state;
      else if (key == 'd' && menu->current != Pause) pressed_keys[3] = state;
-     else if (key == SDLK_LEFT && menu->current != Pause) pressed_keys[4] = state;
-     else if (key == SDLK_RIGHT && menu->current != Pause) pressed_keys[5] = state;
-     else if (key == SDLK_SPACE && menu->current != Pause) pressed_keys[6] = state;
 }
 
 void Player::Fire()

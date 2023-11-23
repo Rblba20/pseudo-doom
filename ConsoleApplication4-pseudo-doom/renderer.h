@@ -18,6 +18,7 @@ class Renderer
         bool init_sdl(const char* title, int width, int height); //initializes SDL and necessary data for rendering
         void draw(int fps); //renders the game and UI and displays it
         ~Renderer();
+        SDL_Window* give_window();
 
         //forbids copy constructor to avoid warning in c++11
         Renderer(const Renderer& r) = delete;

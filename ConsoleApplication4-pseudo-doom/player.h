@@ -7,7 +7,7 @@
 #include "menu.h"
 
 const float speed = 30;
-const float  turn_accel = 0.18;
+const float  turn_accel = 0.3;
 const float turn_max = 0.08;
 
 class Player

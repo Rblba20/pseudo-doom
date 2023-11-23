@@ -23,6 +23,7 @@ bool Renderer::init_sdl(const char* title, int width, int height)
     }
 
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     sdl_renderer = SDL_CreateRenderer(window, -1, 0);
     render_texture = SDL_CreateTexture(sdl_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, width, height);
     screen_w = width;
@@ -68,6 +69,11 @@ bool Renderer::init_sdl(const char* title, int width, int height)
     }
     
     return true;
+}
+
+
+SDL_Window* Renderer::give_window() {
+    return window;
 }
 
 //##########
