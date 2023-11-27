@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <vector>
 
-enum SpriteType {Decoration, Enemy, Key, Temporary};
+enum SpriteType { Decoration, Enemy, Key, Temporary, Death };
 
 struct Sprite
 {
@@ -35,46 +35,46 @@ struct Door
 
 class Map
 {
-	public:
-        Map();
-        unsigned short w = 0;
-		unsigned short h = 0;
+public:
+	Map();
+	unsigned short w = 0;
+	unsigned short h = 0;
 
-		float speed = 0.03; //enemy's speed, changes based on difficulty
-		int damage = 0; //damage inflicted by each enemy, changes based on difficulty
-		int enemy_count = 0;
-		
-		char get_tile(int x, int y);
-		// char get_tile(unsigned short x, unsigned short y);
-		void set_tile(int x, int y, char tile);
-		// void set_tile(unsigned short x, unsigned short y, char tile);
-		void sort_sprites(float player_x, float player_y); //sorts sprites in the vector based on the distance from the player
-		std::vector<Sprite> const& get_sprites();
-		void delete_sprite(int id); //deletes sprite at specified index in the vector
-		// void delete_sprite(unsigned short id);
-		void update_sprites(float player_x, float player_y, float dt); //moves enemies so they follow the player and changes the size of temp sprites
-		Door get_door(int x, int y); //tries to retrive a door at specified coordinates, return 0 if not found
-		//Door get_door(unsigned short x, unsigned short y);
-		bool update_doors(float player_x, float player_y, float dt); //updates the animation state if the player is close enough
-		void animate_sprites(); //swaps sprites for turkeys animation
-		int damage_player(); //returns the amount of damage the player should receive based on difficulty and nearby turkeys
-		bool pickup_keys(); //returns true and remove the key from the map if the player is close enough, returns false if no key is picked up
-		void add_temp_sprite(int itex, float x, float y, int size); //adds a sprite to the map that is delete 500ms later (for explosions)
-		void update_dist_map(int px, int py);
-		// void update_dist_map(unsigned short px, unsigned short py);
-		~Map();
+	float speed = 0.03; //enemy's speed, changes based on difficulty
+	int damage = 0; //damage inflicted by each enemy, changes based on difficulty
+	int enemy_count = 0;
 
-		//forbids copy constructor to avoid warning in c++11
-        Map(const Map& m) = delete;
-        Map& operator=(const Map& m) = delete;
+	char get_tile(int x, int y);
+	// char get_tile(unsigned short x, unsigned short y);
+	void set_tile(int x, int y, char tile);
+	// void set_tile(unsigned short x, unsigned short y, char tile);
+	void sort_sprites(float player_x, float player_y); //sorts sprites in the vector based on the distance from the player
+	std::vector<Sprite> const& get_sprites();
+	void delete_sprite(int id); //deletes sprite at specified index in the vector
+	// void delete_sprite(unsigned short id);
+	void update_sprites(float player_x, float player_y, float dt); //moves enemies so they follow the player and changes the size of temp sprites
+	Door get_door(int x, int y); //tries to retrive a door at specified coordinates, return 0 if not found
+	//Door get_door(unsigned short x, unsigned short y);
+	bool update_doors(float player_x, float player_y, float dt); //updates the animation state if the player is close enough
+	void animate_sprites(); //swaps sprites for turkeys animation
+	int damage_player(); //returns the amount of damage the player should receive based on difficulty and nearby turkeys
+	bool pickup_keys(); //returns true and remove the key from the map if the player is close enough, returns false if no key is picked up
+	void add_temp_sprite(int itex, float x, float y, int size, int type); //adds a sprite to the map that is delete 500ms later (for explosions)
+	void update_dist_map(int px, int py);
+	// void update_dist_map(unsigned short px, unsigned short py);
+	~Map();
 
-	private:
-		char* map;
-		unsigned short* dist;
-		std::vector<Sprite> sprites;
-		std::vector<Door> doors;
-		Uint32 get_pixel(SDL_Surface* source, int x, int y);
-		// Uint32 get_pixel(SDL_Surface* source, unsigned short x, unsigned short y);
+	//forbids copy constructor to avoid warning in c++11
+	Map(const Map& m) = delete;
+	Map& operator=(const Map& m) = delete;
+
+private:
+	char* map;
+	unsigned short* dist;
+	std::vector<Sprite> sprites;
+	std::vector<Door> doors;
+	Uint32 get_pixel(SDL_Surface* source, int x, int y);
+	// Uint32 get_pixel(SDL_Surface* source, unsigned short x, unsigned short y);
 };
 
 #endif
