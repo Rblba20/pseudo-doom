@@ -179,7 +179,7 @@ void Renderer::draw(int fps)
         //FPS weapon
       //  int offset = screen_w / 2 + 100;
         int offset = screen_w / 2 - 155;
-        if (player->display_flash)
+        if (player->display_flash && player->ammo > 0)
         {
             //   draw_2d_sprite(3, offset, screen_h - 400, 400.0);
             draw_2d_sprite(8, offset, screen_h - 350, 350);
@@ -334,9 +334,11 @@ void Renderer::display_normal(int fps)
 {
     std::string fps_text = std::to_string(fps) + " FPS";
     std::string score_text = std::to_string(map->enemy_count) + " enemies left - Timer:" + menu->timer.get_time_string();
+    std::string ammo_text = "Ammo left:" + std::to_string(player->ammo);
     draw_text(10, 10, score_text, false, ttf_color_white);
     draw_text(10, 60, fps_text, false, ttf_color_white);
     draw_text(10, screen_h - 62, std::to_string(player->health), false, ttf_color_white);
+    draw_text(820, screen_h - 62, ammo_text, false, ttf_color_white);
 }
 
 void Renderer::display_menu()

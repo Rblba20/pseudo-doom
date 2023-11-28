@@ -5,7 +5,7 @@
 
 
 
-Player::Player(Map* ma, Menu* me) : display_flash(false), health(100), key_count(0), turkey_destruct(false), wall_destruct(false),
+Player::Player(Map* ma, Menu* me) : display_flash(false), health(100), ammo(100), key_count(0), turkey_destruct(false), wall_destruct(false),
 hurt_sound(false), key_sound(false), x(3), y(3), angle(0), turn(0), walk_x(0), walk_y(0), pressed_keys(NULL), map(ma), menu(me)
 {
     pressed_keys = new bool[4];
@@ -170,67 +170,130 @@ void Player::Fire()
     //we don't need to calculate sin and cos for each step
     float x_offset = cos(angle);
     float y_offset = sin(angle);
-
-    while (!hit_wall && dist < 10) //makes the ray move forward step by step
-    {
-        dist += 0.1;
-
-        //pos of the tip of the ray for this iteration
-        float ray_x = x + x_offset * dist;
-        float ray_y = y + y_offset * dist;
-
-        if (map->get_tile(int(ray_x), int(ray_y)) != ' ') //the current tile is not empty, we hit a wall
+    if(ammo > 0){
+        ammo -= 1;
+        while (!hit_wall && dist < 10) //makes the ray move forward step by step
         {
-            hit_wall = true;
-            if (map->get_tile(int(ray_x), int(ray_y)) == '2')
+            dist += 0.1;
+
+            //pos of the tip of the ray for this iteration
+            float ray_x = x + x_offset * dist;
+            float ray_y = y + y_offset * dist;
+
+            if (map->get_tile(int(ray_x), int(ray_y)) != ' ') //the current tile is not empty, we hit a wall
             {
-                wall_destruct = true;
-                map->set_tile(int(ray_x), int(ray_y), ' ');
-                map->add_temp_sprite(7, int(ray_x) + 0.5, int(ray_y) + 0.5, 1000, 0);
-                map->sort_sprites(x, y);
-                map->update_dist_map(x, y);
-            }
-        }
-        else
-        {
-            for (unsigned int i = 0; i < sprites.size(); i++)
-            {
-                if (sprites.at(i).type == Enemy)
+                hit_wall = true;
+                if (map->get_tile(int(ray_x), int(ray_y)) == '2')
                 {
-                    float sqr_dist = pow(ray_x - sprites.at(i).x, 2) + pow(ray_y - sprites.at(i).y, 2);
-                    if (sqr_dist < 0.016)
+                    wall_destruct = true;
+                    map->set_tile(int(ray_x), int(ray_y), ' ');
+                    map->add_temp_sprite(7, int(ray_x) + 0.5, int(ray_y) + 0.5, 1000, 0);
+                    map->sort_sprites(x, y);
+                    map->update_dist_map(x, y);
+                }
+            }
+            else
+            {
+                for (unsigned int i = 0; i < sprites.size(); i++)
+                {
+                    if ((sprites.at(i).type == Enemy) || (sprites.at(i).type == Fire_))
                     {
-                        turkey_destruct = true;
-                        map->delete_sprite(i);
-                        hit_wall = true;
-                        //  map->add_temp_sprite(6, sprites.at(i).x, sprites.at(i).y, 400);
-                        map->add_temp_sprite(15, sprites.at(i).x, sprites.at(i).y, 400, 1);
-                        //  SDL_Delay(50);
-                    //      map->add_temp_sprite(16, sprites.at(i).x, sprites.at(i).y, 400, 1);
-                    //    //  SDL_Delay(50);
-                    //      map->add_temp_sprite(17, sprites.at(i).x, sprites.at(i).y, 400, 1);
-                    //   //   SDL_Delay(50);
-                    //      map->add_temp_sprite(18, sprites.at(i).x, sprites.at(i).y, 350, 1);
-                    ////      SDL_Delay(50);
-                    //      map->add_temp_sprite(19, sprites.at(i).x, sprites.at(i).y, 300, 1);
-                    ////      SDL_Delay(50);
-                    //      map->add_temp_sprite(20, sprites.at(i).x, sprites.at(i).y, 200, 1);
-                   //       SDL_Delay(50);
-                        map->sort_sprites(x, y);
-
-                        map->enemy_count--;
-                        if (map->enemy_count < 1)
+                        float sqr_dist = pow(ray_x - sprites.at(i).x, 2) + pow(ray_y - sprites.at(i).y, 2);
+                        if (sqr_dist < 0.016)
                         {
-                            menu->timer.stop();
-                            menu->current = Win;
-                            menu->leaderboard.add_score(menu->timer.get_time());
+                            turkey_destruct = true;
+                            map->delete_sprite(i);
+                            hit_wall = true;
+                            //  map->add_temp_sprite(6, sprites.at(i).x, sprites.at(i).y, 400);
+                            map->add_temp_sprite(15, sprites.at(i).x, sprites.at(i).y, 400, 1);
+                            //  SDL_Delay(50);
+                        //      map->add_temp_sprite(16, sprites.at(i).x, sprites.at(i).y, 400, 1);
+                        //    //  SDL_Delay(50);
+                        //      map->add_temp_sprite(17, sprites.at(i).x, sprites.at(i).y, 400, 1);
+                        //   //   SDL_Delay(50);
+                        //      map->add_temp_sprite(18, sprites.at(i).x, sprites.at(i).y, 350, 1);
+                        ////      SDL_Delay(50);
+                        //      map->add_temp_sprite(19, sprites.at(i).x, sprites.at(i).y, 300, 1);
+                        ////      SDL_Delay(50);
+                        //      map->add_temp_sprite(20, sprites.at(i).x, sprites.at(i).y, 200, 1);
+                       //       SDL_Delay(50);
+                            map->sort_sprites(x, y);
+
+                            map->enemy_count--;
+                            if (map->enemy_count < 1)
+                            {
+                                menu->timer.stop();
+                                menu->current = Win;
+                                menu->leaderboard.add_score(menu->timer.get_time());
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }
         }
     }
+
+    //while (!hit_wall && dist < 10) //makes the ray move forward step by step
+    //{
+    //    dist += 0.1;
+
+    //    //pos of the tip of the ray for this iteration
+    //    float ray_x = x + x_offset * dist;
+    //    float ray_y = y + y_offset * dist;
+
+    //    if (map->get_tile(int(ray_x), int(ray_y)) != ' ') //the current tile is not empty, we hit a wall
+    //    {
+    //        hit_wall = true;
+    //        if (map->get_tile(int(ray_x), int(ray_y)) == '2')
+    //        {
+    //            wall_destruct = true;
+    //            map->set_tile(int(ray_x), int(ray_y), ' ');
+    //            map->add_temp_sprite(7, int(ray_x) + 0.5, int(ray_y) + 0.5, 1000, 0);
+    //            map->sort_sprites(x, y);
+    //            map->update_dist_map(x, y);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (unsigned int i = 0; i < sprites.size(); i++)
+    //        {
+    //            if ((sprites.at(i).type == Enemy) || (sprites.at(i).type == Fire_))
+    //            {
+    //                float sqr_dist = pow(ray_x - sprites.at(i).x, 2) + pow(ray_y - sprites.at(i).y, 2);
+    //                if (sqr_dist < 0.016)
+    //                {
+    //                    turkey_destruct = true;
+    //                    map->delete_sprite(i);
+    //                    hit_wall = true;
+    //                    //  map->add_temp_sprite(6, sprites.at(i).x, sprites.at(i).y, 400);
+    //                    map->add_temp_sprite(15, sprites.at(i).x, sprites.at(i).y, 400, 1);
+    //                    //  SDL_Delay(50);
+    //                //      map->add_temp_sprite(16, sprites.at(i).x, sprites.at(i).y, 400, 1);
+    //                //    //  SDL_Delay(50);
+    //                //      map->add_temp_sprite(17, sprites.at(i).x, sprites.at(i).y, 400, 1);
+    //                //   //   SDL_Delay(50);
+    //                //      map->add_temp_sprite(18, sprites.at(i).x, sprites.at(i).y, 350, 1);
+    //                ////      SDL_Delay(50);
+    //                //      map->add_temp_sprite(19, sprites.at(i).x, sprites.at(i).y, 300, 1);
+    //                ////      SDL_Delay(50);
+    //                //      map->add_temp_sprite(20, sprites.at(i).x, sprites.at(i).y, 200, 1);
+    //               //       SDL_Delay(50);
+    //                    map->sort_sprites(x, y);
+
+    //                    map->enemy_count--;
+    //                    if (map->enemy_count < 1)
+    //                    {
+    //                        menu->timer.stop();
+    //                        menu->current = Win;
+    //                        menu->leaderboard.add_score(menu->timer.get_time());
+    //                    }
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     display_flash = true;
 }

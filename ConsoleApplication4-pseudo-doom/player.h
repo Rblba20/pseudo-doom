@@ -17,6 +17,7 @@ class Player
         void handle_events(float dt);
         bool display_flash = false;
         int health = 100;
+        int ammo = 100;
         int key_count = 0;
         bool turkey_destruct, wall_destruct, hurt_sound, key_sound;
 

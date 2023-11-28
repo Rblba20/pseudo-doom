@@ -5,6 +5,8 @@
 #include "map.h"
 #include "renderer.h"
 #include "menu.h"
+#include "player.h"
+#include "menu.h"
 
 Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprites(std::vector<Sprite>()), doors(std::vector<Door>())
 {
@@ -189,8 +191,9 @@ int Map::damage_player()
 	int amount = 0;
 	for (unsigned int i = 0; i < sprites.size(); i++)
 	{
-		if (sprites.at(i).type == Enemy && sprites.at(i).sqr_dist < 2)
+		if (sprites.at(i).type == Enemy && sprites.at(i).sqr_dist < 2) {
 			amount += damage;
+		}
 	}
 	return amount;
 }
@@ -230,15 +233,9 @@ void Map::animate_sprites()
 		}
 		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 19)
 			sprites.at(i).itex = 20;
-		//      map->add_temp_sprite(16, sprites.at(i).x, sprites.at(i).y, 400, 1);
-//    //  SDL_Delay(50);
-//      map->add_temp_sprite(17, sprites.at(i).x, sprites.at(i).y, 400, 1);
-//   //   SDL_Delay(50);
-//      map->add_temp_sprite(18, sprites.at(i).x, sprites.at(i).y, 350, 1);
-////      SDL_Delay(50);
-//      map->add_temp_sprite(19, sprites.at(i).x, sprites.at(i).y, 300, 1);
-////      SDL_Delay(50);
-//      map->add_temp_sprite(20, sprites.at(i).x, sprites.at(i).y, 200, 1);
+		else if (sprites.at(i).type == Fire_) {
+			sprites.at(i).itex = sprites.at(i).itex == 13 ? 14 : 13;
+		}
 	}
 }
 
@@ -284,7 +281,7 @@ void Map::update_sprites(float player_x, float player_y, float dt)
 
 	for (unsigned int i = 0; i < sprites.size(); i++)
 	{
-		if (sprites.at(i).type == Enemy)
+		if (sprites.at(i).type == Enemy || sprites.at(i).type == Fire_)
 		{
 			int x = int(sprites.at(i).x);
 			int y = int(sprites.at(i).y);
@@ -293,21 +290,25 @@ void Map::update_sprites(float player_x, float player_y, float dt)
 
 			if (d > dist[x + (y - 1) * w])
 			{
+			//	sprites.at(i).type = Enemy;
 				sprites.at(i).y -= speed * dt;
 				sprites.at(i).x += (x - sprites.at(i).x + 0.5) * speed * dt;
 			}
 			else if (d > dist[x + (y + 1) * w])
 			{
+			//	sprites.at(i).type = Enemy;
 				sprites.at(i).y += speed * dt;
 				sprites.at(i).x += (x - sprites.at(i).x + 0.5) * speed * dt;
 			}
 			else if (d > dist[(x + 1) + y * w])
 			{
+			//	sprites.at(i).type = Enemy;
 				sprites.at(i).x += speed * dt;
 				sprites.at(i).y += (y - sprites.at(i).y + 0.5) * speed * dt;
 			}
 			else if (d > dist[(x - 1) + y * w])
 			{
+			//	sprites.at(i).type = Fire_;
 				sprites.at(i).x -= speed * dt;
 				sprites.at(i).y += (y - sprites.at(i).y + 0.5) * speed * dt;
 			}

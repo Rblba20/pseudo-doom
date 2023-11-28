@@ -62,7 +62,7 @@ void Sound::play_sounds()
 	}
 
 	//SOUND EFFECTS
-	if(player->display_flash)
+	if(player->display_flash && player->ammo > 0)
 		play(gunshot, 4, 0);
 
 	if(player->turkey_destruct)

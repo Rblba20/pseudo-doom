@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <vector>
 
-enum SpriteType { Decoration, Enemy, Key, Temporary, Death };
+enum SpriteType { Decoration, Enemy, Key, Temporary, Death, Fire_ };
 
 struct Sprite
 {
