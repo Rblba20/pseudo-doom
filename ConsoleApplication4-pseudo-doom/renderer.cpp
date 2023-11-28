@@ -22,7 +22,7 @@ bool Renderer::init_sdl(const char* title, int width, int height)
         return false;
     }
 
-    window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
+    window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     sdl_renderer = SDL_CreateRenderer(window, -1, 0);
     render_texture = SDL_CreateTexture(sdl_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, width, height);

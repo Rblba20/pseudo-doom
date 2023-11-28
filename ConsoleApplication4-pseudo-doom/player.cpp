@@ -40,17 +40,26 @@ void Player::handle_events(float dt)
 
         // Mouse moved ?
         else if ((event.type == SDL_MOUSEMOTION) && (menu->current == None)) {
-            // Get the relative movement of the mouse
+            SDL_SetRelativeMouseMode(SDL_TRUE);
+             //Get the relative movement of the mouse.
+            int mouseXOffset;
+            SDL_GetRelativeMouseState(&mouseXOffset, NULL);
+
+
+            //Make the unit turn if needed.
+            if (mouseXOffset != 0)
+                turn = (float)mouseXOffset / 1280;
+          //      unitPlayer->setAmountTurn((float)mouseXOffset / windowWidth);
 
                        // Get the relative movement of the mouse
-            int mouseX = event.motion.xrel;
+            //int mouseX = event.motion.xrel;
 
-            // Adjust turn based on mouse movement
-            turn = mouseX * turn_accel * dt;
+            //// Adjust turn based on mouse movement
+            //turn = mouseX * turn_accel * dt;
 
 
             std::cout << turn << std::endl;
-            angle += turn;
+            angle += turn* turn_accel;
             if (angle > M_PI)
                 angle -= 2 * M_PI;
             if (angle < -M_PI)

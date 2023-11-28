@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
         
         if(menu.current == None) //no menu is displayed, the player is currently playing
         {
+            SDL_ShowCursor(SDL_DISABLE);
             if(player.key_count > 0 && map.update_doors(player.get_x(), player.get_y(), dt))
                 player.key_count--;
 
@@ -62,14 +63,21 @@ int main(int argc, char* argv[])
         }
         else if(menu.current == Main)
         {
+            SDL_ShowCursor(SDL_ENABLE);
+            SDL_SetRelativeMouseMode(SDL_FALSE);
             map.damage = menu.difficulty == 0 ? 1 : (menu.difficulty == 1 ? 3 : 6);
             map.speed = menu.difficulty == 0 ? 0.8 : (menu.difficulty == 1 ? 1.2 : 2.5);
             sound.set_volume(menu.sound == 0 ? 0 : (menu.sound == 1 ? 20 : 100));
+        }
+        else {
+            SDL_ShowCursor(SDL_ENABLE);
+            SDL_SetRelativeMouseMode(SDL_FALSE);
         }
 
         player.handle_events(dt);
         renderer.draw(fps);
         sound.play_sounds();
     }
+    SDL_ShowCursor(SDL_ENABLE);
     return 0;
 }

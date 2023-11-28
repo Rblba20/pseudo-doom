@@ -48,7 +48,7 @@ private:
     SDL_Texture* render_texture;
 
     Uint32* pixels; //all the pixels rendered on screen
-    int screen_w; //screen width
+    int screen_w; //screen wi6h
     int screen_h; //screen height
 
     SDL_Surface* wall_textures;
