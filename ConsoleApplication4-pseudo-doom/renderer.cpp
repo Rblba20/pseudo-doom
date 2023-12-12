@@ -8,7 +8,6 @@
 Renderer::Renderer(Player* p, Map* ma, Menu* me) : window(NULL), sdl_renderer(NULL), render_texture(NULL), pixels(NULL), screen_w(0), screen_h(0),
 wall_textures(NULL), sprites_textures(NULL), font_big(NULL), font_medium(NULL), zbuffer(NULL), player(p), map(ma), menu(me)
 {
-
 }
 
 bool Renderer::init_sdl(const char* title, int width, int height)
@@ -181,8 +180,7 @@ void Renderer::draw(int fps)
         int offset = screen_w / 2 - 155;
         if (player->display_flash && player->ammo > 0)
         {
-            //   draw_2d_sprite(3, offset, screen_h - 400, 400.0);
-            draw_2d_sprite(8, offset, screen_h - 350, 350);
+               draw_2d_sprite(8, offset, screen_h - 350, 350);
             //  SDL_Delay(100);
         }
         draw_2d_sprite(0, offset, screen_h - 350, 350);

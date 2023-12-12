@@ -9,10 +9,11 @@ int main(int argc, char* argv[])
     double lastTime = 0;
     double lastFPSDisplay = 0;
     double fps = 60;
+    Uint32 time = SDL_GetTicks();
 
+    Menu menu;
     Map map;
     if(map.w == 0) return 0;
-    Menu menu;
 	Player player(&map, &menu);
     Renderer renderer(&player, &map, &menu);
     Sound sound(&menu, &player);
@@ -24,6 +25,10 @@ int main(int argc, char* argv[])
     //game loop
     while (!menu.wants_to_quit)
     {
+        if (20 > (SDL_GetTicks() - time))
+        {
+            SDL_Delay(20 - (SDL_GetTicks() - time)); //SDL_Delay pauses the execution.
+        }
         float dt = (SDL_GetTicks() - lastTime) / 1000.0;
         lastTime = SDL_GetTicks();
         if(dt == 0) dt = 1; //prevent division by zero
@@ -37,6 +42,7 @@ int main(int argc, char* argv[])
             //sort sprites only 5 times per seconds
             map.sort_sprites(player.get_x(), player.get_y());
             map.animate_sprites();
+       //     player.ammo = 10000;
 
             if(map.pickup_keys())
             {

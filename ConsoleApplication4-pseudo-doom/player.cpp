@@ -5,8 +5,8 @@
 
 
 
-Player::Player(Map* ma, Menu* me) : display_flash(false), health(100), ammo(100), key_count(0), turkey_destruct(false), wall_destruct(false),
-hurt_sound(false), key_sound(false), x(3), y(3), angle(0), turn(0), walk_x(0), walk_y(0), pressed_keys(NULL), map(ma), menu(me)
+Player::Player(Map* ma, Menu* me) : display_flash(false), health(100), ammo(230), key_count(0), enemy_destruct(false), wall_destruct(false),
+hurt_sound(false), key_sound(false), x(5), y(5), angle(0), turn(0), walk_x(0), walk_y(0), pressed_keys(NULL), map(ma), menu(me)
 {
     pressed_keys = new bool[4];
     for (int i = 0; i < 4; i++)
@@ -23,7 +23,7 @@ void Player::handle_events(float dt)
 
     menu->mouse_down = false; //the menu should see the mouse button clicked for one frame only
     display_flash = false;
-    turkey_destruct = false;
+    enemy_destruct = false;
     wall_destruct = false;
 
     while (SDL_PollEvent(&event))
@@ -210,7 +210,7 @@ void Player::Fire()
                         float sqr_dist = pow(ray_x - sprites.at(i).x, 2) + pow(ray_y - sprites.at(i).y, 2);
                         if (sqr_dist < 0.016)
                         {
-                            turkey_destruct = true;
+                            enemy_destruct = true;
                             map->delete_sprite(i);
                             hit_wall = true;
                             //  map->add_temp_sprite(6, sprites.at(i).x, sprites.at(i).y, 400);

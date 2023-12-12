@@ -27,9 +27,9 @@ class Sound
 		Mix_Chunk* gameover;
 		Mix_Chunk* victory;
 		Mix_Chunk* gunshot;
-		Mix_Chunk* death_turkey;
+		Mix_Chunk* death_enemy;
 		Mix_Chunk* key;
-		Mix_Chunk* turkey;
+		Mix_Chunk* enemy;
 		Mix_Chunk* wall;
 		Mix_Chunk* hurt;
 

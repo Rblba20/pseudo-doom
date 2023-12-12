@@ -5,7 +5,7 @@
 #include "sound.h"
 
 Sound::Sound(Menu* me, Player* p) : theme(NULL), music_menu(NULL), music_pause(NULL), gameover(NULL), victory(NULL),
-	gunshot(NULL), death_turkey(NULL), key(NULL), turkey(NULL), wall(NULL), hurt(NULL), menu(me), player(p)
+	gunshot(NULL), death_enemy(NULL), key(NULL), enemy(NULL), wall(NULL), hurt(NULL), menu(me), player(p)
 {
 	
 }
@@ -23,9 +23,9 @@ void Sound::init_sounds()
 	gameover = load_sound("sounds/gameover.ogg");
 	victory = load_sound("sounds/victory.ogg");
 	gunshot = load_sound("sounds/gunshot.ogg");
-	death_turkey = load_sound("sounds/death_turkey.ogg");
+	death_enemy = load_sound("sounds/death_turkey.ogg");
 	key = load_sound("sounds/key.ogg");
-	turkey = load_sound("sounds/turkey.ogg");
+	enemy = load_sound("sounds/turkey.ogg");
 	wall = load_sound("sounds/wall.ogg");
 	hurt = load_sound("sounds/hurt.ogg");
 }
@@ -65,8 +65,8 @@ void Sound::play_sounds()
 	if(player->display_flash && player->ammo > 0)
 		play(gunshot, 4, 0);
 
-	if(player->turkey_destruct)
-		play(death_turkey, 5, 0);
+	if(player->enemy_destruct)
+		play(death_enemy, 5, 0);
 
 	if(player->wall_destruct)
 		play(wall, 6, 0);
@@ -122,10 +122,10 @@ Sound::~Sound()
 
 	//freeSFX
 	Mix_FreeChunk(gunshot);
-	Mix_FreeChunk(death_turkey);
+	Mix_FreeChunk(death_enemy);
 	Mix_FreeChunk(wall);
 	Mix_FreeChunk(key);
-	Mix_FreeChunk(turkey);
+	Mix_FreeChunk(enemy);
 	Mix_FreeChunk(hurt);
 
 	Mix_CloseAudio();

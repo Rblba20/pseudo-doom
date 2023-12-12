@@ -1,17 +1,24 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <string>
 #include <SDL.h>
 #include "map.h"
 #include "renderer.h"
 #include "menu.h"
 #include "player.h"
-#include "menu.h"
+using namespace std;
 
 Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprites(std::vector<Sprite>()), doors(std::vector<Door>())
 {
+	// ”становить генератор случайных чисел
+	srand(time(NULL));
+
+	// ѕолучить случайное число - формула
+	int number = 1 + rand() % (3 - 1 + 1);
+	const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
+	SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
 	//Loading the map texture
-	SDL_Surface* map_tex = SDL_LoadBMP("map.bmp");
 
 	//Error handling for texture loading
 	if (!map_tex)

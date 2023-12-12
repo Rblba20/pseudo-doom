@@ -13,10 +13,7 @@ Menu::Menu() : wants_to_quit(false), current(Main), mouse_down(false), difficult
         Button(550, 600, 140, 55), //help back
         Button(550, 600, 140, 55), //win quit
         Button(460, 490, 300, 55) //sound
-    }
-{
-
-}
+    }{}
 
 bool Menu::check_hover(int button_id)
 {

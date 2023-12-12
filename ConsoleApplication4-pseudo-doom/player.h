@@ -19,7 +19,7 @@ class Player
         int health = 100;
         int ammo = 100;
         int key_count = 0;
-        bool turkey_destruct, wall_destruct, hurt_sound, key_sound;
+        bool enemy_destruct, wall_destruct, hurt_sound, key_sound;
 
         float get_x();
         float get_y();

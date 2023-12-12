@@ -56,8 +56,8 @@ public:
 	Door get_door(int x, int y); //tries to retrive a door at specified coordinates, return 0 if not found
 	//Door get_door(unsigned short x, unsigned short y);
 	bool update_doors(float player_x, float player_y, float dt); //updates the animation state if the player is close enough
-	void animate_sprites(); //swaps sprites for turkeys animation
-	int damage_player(); //returns the amount of damage the player should receive based on difficulty and nearby turkeys
+	void animate_sprites(); //swaps sprites for enemies animation
+	int damage_player(); //returns the amount of damage the player should receive based on difficulty and nearby enemies
 	bool pickup_keys(); //returns true and remove the key from the map if the player is close enough, returns false if no key is picked up
 	void add_temp_sprite(int itex, float x, float y, int size, int type); //adds a sprite to the map that is delete 500ms later (for explosions)
 	void update_dist_map(int px, int py);
