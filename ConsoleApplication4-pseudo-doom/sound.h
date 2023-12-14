@@ -22,8 +22,10 @@ class Sound
 		
 	private:
 		Mix_Chunk* theme;
+		Mix_Chunk* egg;
 		Mix_Chunk* music_menu;
 		Mix_Chunk* music_pause;
+		Mix_Chunk* death_sound;
 		Mix_Chunk* gameover;
 		Mix_Chunk* victory;
 		Mix_Chunk* gunshot;
@@ -31,6 +33,7 @@ class Sound
 		Mix_Chunk* key;
 		Mix_Chunk* enemy;
 		Mix_Chunk* wall;
+		Mix_Chunk* no_ammo_sound;
 		Mix_Chunk* hurt;
 
 		Mix_Chunk* load_sound(std::string filename);

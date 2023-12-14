@@ -121,15 +121,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL2-2.26.3\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDL2-2.26.3\include;C:\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SDL2-2.26.3\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\SDL2-2.26.3\lib\x64;C:\opencv\build\x64\vc16\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world480.lib;SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -142,6 +142,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="video.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="video.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />

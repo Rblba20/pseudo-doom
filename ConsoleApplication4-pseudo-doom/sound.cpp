@@ -4,7 +4,7 @@
 #include <SDL_mixer.h>
 #include "sound.h"
 
-Sound::Sound(Menu* me, Player* p) : theme(NULL), music_menu(NULL), music_pause(NULL), gameover(NULL), victory(NULL),
+Sound::Sound(Menu* me, Player* p) : theme(NULL), music_menu(NULL), music_pause(NULL), gameover(NULL), death_sound(NULL), no_ammo_sound(NULL), victory(NULL),
 	gunshot(NULL), death_enemy(NULL), key(NULL), enemy(NULL), wall(NULL), hurt(NULL), menu(me), player(p)
 {
 	
@@ -17,17 +17,20 @@ void Sound::init_sounds()
 	Mix_Init(MIX_INIT_OGG);		
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 
-	theme = load_sound("sounds/theme.ogg");
-	music_menu  = load_sound("sounds/menu.ogg");
+	egg = load_sound("sounds/story.mp3");
+	theme = load_sound("sounds/playlist.mp3");
+	music_menu  = load_sound("sounds/menu.mp3");
 	music_pause = load_sound("sounds/pause.ogg");
 	gameover = load_sound("sounds/gameover.ogg");
+	death_sound = load_sound("sounds/dead.wav");
+	no_ammo_sound = load_sound("sounds/null_ammo.mp3");
 	victory = load_sound("sounds/victory.ogg");
-	gunshot = load_sound("sounds/gunshot.ogg");
+	gunshot = load_sound("sounds/pistol.mp3");
 	death_enemy = load_sound("sounds/death_turkey.ogg");
 	key = load_sound("sounds/key.ogg");
 	enemy = load_sound("sounds/turkey.ogg");
 	wall = load_sound("sounds/wall.ogg");
-	hurt = load_sound("sounds/hurt.ogg");
+	hurt = load_sound("sounds/do_damage.mp3");
 }
 
 void Sound::play_sounds()
@@ -35,35 +38,45 @@ void Sound::play_sounds()
 	//MUSICS
 	if (menu->current == None)//plays theme when not in menu
 	{
-		if(Mix_Playing(2) == 1) Mix_HaltChannel(2);
-		else if(Mix_Playing(3) == 1) Mix_HaltChannel(3);
+		if (Mix_Playing(2) == 1) Mix_HaltChannel(2);
+		else if (Mix_Playing(3) == 1) Mix_HaltChannel(3);
 
-		if(Mix_Playing(1) == 0) play(theme, 1, -1);
+		if (Mix_Playing(1) == 0) play(theme, 1, -1);
 		resume_music(1);
 	}
 	else if (menu->current == Main || menu->current == Help)//plays main menu music
 	{
-		if(Mix_Playing(2) == 0) play(music_menu, 2, -1);
+		if (Mix_Playing(2) == 0) play(music_menu, 2, -1);
 	}
 	else if (menu->current == Pause)//plays pause menu music
 	{
 		pause_music(1);
-		if(Mix_Playing(3) == 0) play(music_pause, 3, -1);
+		if (Mix_Playing(3) == 0) play(music_pause, 3, -1);
 	}
 	else if (menu->current == GameOver)//plays game over music
 	{
 		Mix_HaltChannel(1);
-		if(Mix_Playing(2) == 0) play(gameover, 2, -1);
+		if (Mix_Playing(2) == 0) play(gameover, 2, -1);
 	}
 	else if (menu->current == Win)//plays game over music
 	{
 		Mix_HaltChannel(1);
-		if(Mix_Playing(2) == 0) play(victory, 2, -1);
+		if (Mix_Playing(2) == 0) play(victory, 2, -1);
 	}
-
+	else if (menu->current == EasterEgg)//plays game over music
+	{
+		Mix_HaltChannel(2);
+		play(egg, 3, -1);
+	}
 	//SOUND EFFECTS
-	if(player->display_flash && player->ammo > 0)
+	if (player->display_flash && player->ammo > 0)
 		play(gunshot, 4, 0);
+
+	if (player->display_flash && player->ammo <= 0)
+		play(no_ammo_sound, 4, 0);
+
+	//if (player->health <= 10)
+	//	play(death_sound, 5, 0);
 
 	if(player->enemy_destruct)
 		play(death_enemy, 5, 0);

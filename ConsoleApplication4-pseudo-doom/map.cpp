@@ -15,9 +15,10 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 	srand(time(NULL));
 
 	// Получить случайное число - формула
-	int number = 1 + rand() % (3 - 1 + 1);
-	const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
-	SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
+	//int number = 1 + rand() % (3 - 1 + 1);
+	//const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
+	//SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
+	 SDL_Surface* map_tex = SDL_LoadBMP("test.bmp");
 	//Loading the map texture
 
 	//Error handling for texture loading
@@ -33,8 +34,6 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 		return;
 	}
 
-	//TODO : Fix this issue
-	//temporary workaround because map sizes other than 32x32 causes crashes
 	if (map_tex->w != 32 || map_tex->h != 32)
 	{
 		std::cerr << "Map must be 32x32." << std::endl;
@@ -86,19 +85,31 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 				sprites.at(index).size = 500 + ((id * 50) % 100);
 				enemy_count++;
 			}
-			else if (pixel == 65535) //cyan 0,255,255 : flowers
+			else if (pixel == 65535) //cyan 0,255,255 : smth
 			{
 				map[id] = ' ';
 
-				for (int i = 0; i < 6; i++)
+				for (int i = 0; i < 1; i++)
 				{
 					unsigned int index = sprites.size();
 					sprites.push_back(Sprite());
 					sprites.at(index).x = x + (std::rand() % 100) / 100.0;
 					sprites.at(index).y = y + (std::rand() % 100) / 100.0;
-					sprites.at(index).itex = 2;
+					sprites.at(index).itex = 1 + rand() % (4 - 1 + 1);
+					// 1 + rand() % (4 - 1 + 1);
 					sprites.at(index).type = Decoration;
-					sprites.at(index).size = 200 + ((id * 50) % 100);
+					if (sprites.at(index).itex == 1) {
+						sprites.at(index).size = 900;
+					}
+					if (sprites.at(index).itex == 2) {
+						sprites.at(index).size = 500;
+					}
+					if (sprites.at(index).itex == 3) {
+						sprites.at(index).size = 700;
+					}
+					if (sprites.at(index).itex == 4) {
+						sprites.at(index).size = 900;
+					}
 				}
 			}
 			else if (pixel == 16711935) //magenta 255,0,255 : key

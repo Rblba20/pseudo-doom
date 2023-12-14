@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
     //game loop
     while (!menu.wants_to_quit)
     {
+        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
         if (20 > (SDL_GetTicks() - time))
         {
             SDL_Delay(20 - (SDL_GetTicks() - time)); //SDL_Delay pauses the execution.

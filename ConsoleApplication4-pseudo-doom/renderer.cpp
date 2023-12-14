@@ -4,6 +4,8 @@
 #include <SDL_ttf.h>
 #include <SDL.h>
 #include "renderer.h"
+#include "player.h"
+#include "video.h"
 
 Renderer::Renderer(Player* p, Map* ma, Menu* me) : window(NULL), sdl_renderer(NULL), render_texture(NULL), pixels(NULL), screen_w(0), screen_h(0),
 wall_textures(NULL), sprites_textures(NULL), font_big(NULL), font_medium(NULL), zbuffer(NULL), player(p), map(ma), menu(me)
@@ -152,9 +154,11 @@ void Renderer::draw(int fps)
                 for (int j = 0; j < screen_h; j++)
                 {
                     if (j < wall_top) //draw sky (top : 0,50,200 ; bottom : 150,200,200)
-                        set_pixel(i, j, rgb_to_int(150 * (j / (float)screen_h * 2), 50 + 150 * (j / (float)screen_h * 2), 200));
+                        //set_pixel(i, j, rgb_to_int(150 * (j / (float)screen_h * 2), 50 + 150 * (j / (float)screen_h * 2), 200));
+                        set_pixel(i, j, rgb_to_int(255, 50 + 150 * (j / (float)screen_h * 2), 20));
                     else if (j >= wall_bottom) //draw ground (top : 0,100,0 ; bottom : 100,200,0)
-                        set_pixel(i, j, rgb_to_int(120 - 70 * ((screen_h - j) / (float)screen_h * 2), 150 - 50 * ((screen_h - j) / (float)screen_h * 2), 20));
+                   //     set_pixel(i, j, rgb_to_int(120 - 70 * ((screen_h - j) / (float)screen_h * 2), 150 - 50 * ((screen_h - j) / (float)screen_h * 2), 20));
+                        set_pixel(i, j, rgb_to_int(24,28,31));
                     else //top < j < bottom, draw wall
                     {
                         int texture_y = (j - wall_top) / (float)wall_height * wall_textures->h;
@@ -229,10 +233,23 @@ void Renderer::draw(int fps)
         display_pause_menu();
     else if (menu->current == GameOver)
         display_game_over();
-    else if (menu->current == Win)
+    else if (menu->current == Win) {
         display_win();
+    }
     else if (menu->current == Help)
+    {
         display_help();
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type = SDL_KEYUP && event.key.keysym.sym == 'p') {
+                menu->current = EasterEgg;
+                Video video(window, sdl_renderer);
+                video.playVideo("video/story.mp4");
+                video.backToMenu();
+            }
+        }
+    }
+
     else
         display_normal(fps);
 
@@ -407,6 +424,7 @@ void Renderer::set_pixel(int x, int y, Uint32 pixel)
         return;
 
     pixels[x + screen_w * y] = pixel;
+   // std::cout << pixel << std::endl;
 }
 
 Uint32 Renderer::rgb_to_int(unsigned char r, unsigned char g, unsigned char b)

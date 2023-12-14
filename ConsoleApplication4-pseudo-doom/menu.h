@@ -7,7 +7,7 @@
 #include "timer.h"
 #include "leaderboard.h"
 
-enum CurrentMenu {None, Main, Pause, GameOver, Win, Help};
+enum CurrentMenu {None, Main, Pause, GameOver, Win, Help, EasterEgg};
 enum Difficulty {Easy, Normal, Hard};
 enum SoundVolume {NoSound, LowSound, NormalSound};
 
