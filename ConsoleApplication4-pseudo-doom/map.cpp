@@ -16,9 +16,9 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 
 	// Получить случайное число - формула
 	//int number = 1 + rand() % (3 - 1 + 1);
-	//const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
-	//SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
-	 SDL_Surface* map_tex = SDL_LoadBMP("test.bmp");
+	const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
+	SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
+	// SDL_Surface* map_tex = SDL_LoadBMP("test.bmp");
 	//Loading the map texture
 
 	//Error handling for texture loading
