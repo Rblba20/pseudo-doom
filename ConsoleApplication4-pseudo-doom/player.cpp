@@ -34,7 +34,7 @@ void Player::handle_events(float dt)
         }
         //a key is pressed
         else if (event.type == SDL_KEYDOWN) {
-            std::cout << "I am here" << std::endl;
+          //  std::cout << "I am here" << std::endl;
             update_key(event.key.keysym.sym, true);
         }
 
@@ -58,7 +58,7 @@ void Player::handle_events(float dt)
             //turn = mouseX * turn_accel * dt;
 
 
-            std::cout << turn << std::endl;
+         //   std::cout << turn << std::endl;
             angle += turn* turn_accel;
             if (angle > M_PI)
                 angle -= 2 * M_PI;

@@ -1,11 +1,26 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <algorithm>
 #include <SDL_ttf.h>
 #include <SDL.h>
+#include <ctime>
+#include <fstream>
+#include <cstdlib>
+#include <vector>
+#include <list>
+#include <sstream>
 #include "renderer.h"
 #include "player.h"
 #include "video.h"
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::string;
+
+using namespace std;
 
 Renderer::Renderer(Player* p, Map* ma, Menu* me) : window(NULL), sdl_renderer(NULL), render_texture(NULL), pixels(NULL), screen_w(0), screen_h(0),
 wall_textures(NULL), sprites_textures(NULL), font_big(NULL), font_medium(NULL), zbuffer(NULL), player(p), map(ma), menu(me)
@@ -38,7 +53,27 @@ bool Renderer::init_sdl(const char* title, int width, int height)
     }
 
     wall_textures = SDL_LoadBMP("walltext.bmp");
-    sprites_textures = SDL_LoadBMP("sprites.bmp");
+    string filename("mode.txt");
+    int number;
+    int elect = 0;
+
+    ifstream input_file(filename);
+    if (!input_file.is_open()) {
+        cerr << "Could not open the file - '" << filename << "'" << endl;
+        //  return EXIT_FAILURE;
+    }
+
+    while (input_file >> number) {
+        elect = number;
+    }
+    if (elect == 666) {
+        const string sprites__load = "sprites" + to_string(1) + ".bmp";
+        sprites_textures = SDL_LoadBMP(sprites__load.c_str());
+    }
+    else {
+        sprites_textures = SDL_LoadBMP("sprites.bmp");
+    }
+    input_file.close();
     // commander_textures = SDL_LoadBMP("CommanderSprites.bmp");
 
     if (!wall_textures || !sprites_textures)
@@ -181,13 +216,51 @@ void Renderer::draw(int fps)
     {
         //FPS weapon
       //  int offset = screen_w / 2 + 100;
-        int offset = screen_w / 2 - 155;
-        if (player->display_flash && player->ammo > 0)
-        {
-               draw_2d_sprite(8, offset, screen_h - 350, 350);
-            //  SDL_Delay(100);
+        string filename("mode.txt");
+        int number;
+        int elect = 0;
+
+        ifstream input_file(filename);
+        if (!input_file.is_open()) {
+            cerr << "Could not open the file - '" << filename << "'" << endl;
+            //  return EXIT_FAILURE;
         }
-        draw_2d_sprite(0, offset, screen_h - 350, 350);
+
+        while (input_file >> number) {
+            elect = number;
+        }
+        if (elect == 666) {
+            int offset = screen_w / 2 ;
+            if (player->display_flash && player->ammo > 0)
+            {
+                start = SDL_GetTicks();
+                std::cout << "FIRE: " << start << std::endl;
+                std::cout << "FIRE: " << SDL_GetTicks() << std::endl;
+                std::cout << "FIRE: " << SDL_GetTicks() - start << std::endl;
+                draw_2d_sprite(8, screen_w / 2 - 200, screen_h - 500, 550);
+            }
+            else if ((SDL_GetTicks() - start) >= 480) {
+                draw_2d_sprite(0, offset, screen_h - 350, 350);
+            }
+            else if ((SDL_GetTicks() - start) < 280) {
+                draw_2d_sprite(8, screen_w / 2 - 200, screen_h - 500, 550);
+            }
+            else if ((SDL_GetTicks() - start) < 480 && ((SDL_GetTicks() - start) >=280)) {
+                draw_2d_sprite(13, screen_w / 2 - 47, screen_h - 500, 550);
+            }
+        }
+        else {
+            int offset = screen_w / 2 - 155;
+            if (player->display_flash && player->ammo > 0)
+            {
+                draw_2d_sprite(8, offset, screen_h - 350, 350);
+            }
+            else {
+                draw_2d_sprite(0, offset, screen_h - 350, 350);
+            }
+        }
+        input_file.close();
+     //   draw_2d_sprite(0, offset, screen_h - 350, 350);
 
         //draws crosshair
         int center = screen_w / 2;

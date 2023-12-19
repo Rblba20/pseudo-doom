@@ -25,6 +25,7 @@ public:
     Renderer& operator=(const Renderer& r) = delete;
 
 private:
+    Uint32 start = 0;
     void set_pixel(int x, int y, Uint32 pixel); //sets a pixel on the screen
     Uint32 get_pixel_tex(int itex, int x, int y, bool sprite = false); //gets a pixel from the texture file
 

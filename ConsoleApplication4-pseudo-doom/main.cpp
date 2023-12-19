@@ -1,8 +1,20 @@
 #include <ctime>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "renderer.h"
 #include "player.h"
 #include "sound.h"
+#include <cstdlib>
+#include <vector>
+#include <list>
+#include <sstream>
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::string;
 
 int main(int argc, char* argv[])
 {
@@ -19,13 +31,55 @@ int main(int argc, char* argv[])
     Sound sound(&menu, &player);
     sound.init_sounds();
 
+    string bullets_filename("bullets.txt");
+    int bullets_number;
+
+    ifstream bullets_input_file(bullets_filename);
+    if (!bullets_input_file.is_open()) {
+        cerr << "Could not open the file - '" << bullets_filename << "'" << endl;
+        //  return EXIT_FAILURE;
+    }
+
+    while (bullets_input_file >> bullets_number) {
+        player.ammo = bullets_number;
+    }
+    bullets_input_file.close();
+
+
+    string mode_filename("mode.txt");
+    int mode_number;
+
+    ifstream mode_input_file(mode_filename);
+    if (!mode_input_file.is_open()) {
+        cerr << "Could not open the file - '" << mode_filename << "'" << endl;
+        //  return EXIT_FAILURE;
+    }
+
+    while (mode_input_file >> mode_number) {
+    }
+    mode_input_file.close();
+    std::ofstream outfile(mode_filename); // использовать значение mode_filename
+    if (mode_number == 7734) {
+        outfile << 666 << std::endl;
+        outfile.close();
+    }
+    else if (mode_number == 666) {
+        outfile << 071117 << std::endl;
+        outfile.close();
+    }
+    else {
+
+    }
+
+
+
     if(!renderer.init_sdl("DOOM_Like", 1280, 720))
         return 0;
     
     //game loop
     while (!menu.wants_to_quit)
     {
-        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+      //  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
         if (20 > (SDL_GetTicks() - time))
         {
             SDL_Delay(20 - (SDL_GetTicks() - time)); //SDL_Delay pauses the execution.

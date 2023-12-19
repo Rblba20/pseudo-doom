@@ -7,6 +7,7 @@
 #include "renderer.h"
 #include "menu.h"
 #include "player.h"
+#include <ctime>
 using namespace std;
 
 Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprites(std::vector<Sprite>()), doors(std::vector<Door>())
@@ -16,9 +17,11 @@ Map::Map() : speed(1.2), damage(0), enemy_count(0), map(NULL), dist(NULL), sprit
 
 	// Получить случайное число - формула
 	//int number = 1 + rand() % (3 - 1 + 1);
+
 	const string map_load =  "map" + to_string(1 + rand() % (3 - 1 + 1)) + ".bmp";
 	SDL_Surface* map_tex = SDL_LoadBMP(map_load.c_str());
-	// SDL_Surface* map_tex = SDL_LoadBMP("test.bmp");
+
+	 //SDL_Surface* map_tex = SDL_LoadBMP("test.bmp");
 	//Loading the map texture
 
 	//Error handling for texture loading
@@ -235,26 +238,70 @@ bool Map::pickup_keys()
 
 void Map::animate_sprites()
 {
-	for (unsigned int i = 0; i < sprites.size(); i++)
-	{
-		if (sprites.at(i).type == Enemy)
-			sprites.at(i).itex = sprites.at(i).itex == 9 ? 10 : sprites.at(i).itex == 10 ? 11 : sprites.at(i).itex == 11 ? 12 : 9;
-		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 15)
-			sprites.at(i).itex = 16;
-		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 16)
-			sprites.at(i).itex = 17;
-		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 17) {
-			sprites.at(i).itex = 18;
-		}
-		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 18) {
-			sprites.at(i).itex = 19;
-		}
-		else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 19)
-			sprites.at(i).itex = 20;
-		else if (sprites.at(i).type == Fire_) {
-			sprites.at(i).itex = sprites.at(i).itex == 13 ? 14 : 13;
+	string filename("mode.txt");
+	int number;
+	int elect = 0;
+
+	ifstream input_file(filename);
+	if (!input_file.is_open()) {
+		cerr << "Could not open the file - '" << filename << "'" << endl;
+		//  return EXIT_FAILURE;
+	}
+
+	while (input_file >> number) {
+		elect = number;
+	}
+	if (elect == 666) {
+		for (unsigned int i = 0; i < sprites.size(); i++)
+		{
+			if (sprites.at(i).type == Enemy)
+				sprites.at(i).itex = sprites.at(i).itex == 9 ? 10 : sprites.at(i).itex == 10 ? 11 : sprites.at(i).itex == 11 ? 12 : 9;
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 15)
+				sprites.at(i).itex = 16;
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 16) {
+				int choose = 1 + rand() % (4 - 1 + 1);
+				if (choose == 3) {
+					sprites.at(i).itex = 20;
+				}
+				else {
+					sprites.at(i).itex = 17;
+				}
+			}
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 17) {
+				sprites.at(i).itex = 18;
+			}
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 18) {
+				sprites.at(i).itex = 19;
+			}
+			//else if (sprites.at(i).type == Fire_) {
+			//	sprites.at(i).itex = sprites.at(i).itex == 13 ? 14 : 13;
+			//}
 		}
 	}
+	else {
+		for (unsigned int i = 0; i < sprites.size(); i++)
+		{
+			if (sprites.at(i).type == Enemy)
+				sprites.at(i).itex = sprites.at(i).itex == 9 ? 10 : sprites.at(i).itex == 10 ? 11 : sprites.at(i).itex == 11 ? 12 : 9;
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 15)
+				sprites.at(i).itex = 16;
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 16)
+				sprites.at(i).itex = 17;
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 17) {
+				sprites.at(i).itex = 18;
+			}
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 18) {
+				sprites.at(i).itex = 19;
+			}
+			else if (sprites.at(i).type == Death && sprites.at(i).itex != 20 && sprites.at(i).itex == 19)
+				sprites.at(i).itex = 20;
+			//else if (sprites.at(i).type == Fire_) {
+			//	sprites.at(i).itex = sprites.at(i).itex == 13 ? 14 : 13;
+			//}
+		}
+	}
+	input_file.close();
+
 }
 
 std::vector<Sprite> const& Map::get_sprites()

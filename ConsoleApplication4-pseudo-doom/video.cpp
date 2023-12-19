@@ -2,6 +2,19 @@
 #include <cmath>
 #include "video.h"
 #include "menu.h"
+#include <ctime>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+#include <vector>
+#include <list>
+#include <sstream>
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::string;
 
 Video::Video(SDL_Window* window, SDL_Renderer* renderer) {
     this->window = window;
@@ -15,6 +28,13 @@ void Video::playVideo(const std::string& videoPath) {
     cv::VideoCapture cap(videoPath);
     cv::Mat frame;
     bool success = true;
+
+    string mode_filename("mode.txt");
+    int mode_number;
+
+    std::ofstream outfile(mode_filename); // использовать значение mode_filename
+    outfile << 7734 << std::endl;
+    outfile.close();
 
     while (success) {
         SDL_Event event;
