@@ -67,10 +67,12 @@ void Player::handle_events(float dt)
         }
         else if ((event.type == SDL_MOUSEBUTTONDOWN) && (menu->current == None) && (event.button.button == SDL_BUTTON_LEFT))
         {
-            if (menu->current == None)
+            if (menu->current == None && ((SDL_GetTicks() - start) >= 600))
             {
+                start = SDL_GetTicks();
                 Fire();
             }
+           
             //std::cout << "I am here" << std::endl;
 
 

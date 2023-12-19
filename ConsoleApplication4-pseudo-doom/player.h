@@ -32,6 +32,7 @@ class Player
         Player& operator=(const Player& p) = delete;
 
     private:
+        Uint32 start = 0;
         float x, y, angle; //player position and rotation
         float turn, walk_x, walk_y; // player input
         bool* pressed_keys;

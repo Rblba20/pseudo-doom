@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     Sound sound(&menu, &player);
     sound.init_sounds();
 
-    string bullets_filename("bullets.txt");
+    string bullets_filename("Project7\Project7\bullets.txt");
     int bullets_number;
 
     ifstream bullets_input_file(bullets_filename);
