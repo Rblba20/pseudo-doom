@@ -392,7 +392,7 @@ public:
 };
 
 int getRandomNumber(int min, int max) {
-	return rand() % (max - min + 1) + min; // генерация случайного числа между min и max
+	return rand() % (max - min + 1) + min; // ДѓДєГ­ДєД‘Е•Г¶ДЌЛ™ Е„Г«ГіГ·Е•Г©Г­Г®ДѓГ® Г·ДЌЕ„Г«Е• Д›ДєД‡Г¤Гі min ДЌ max
 }
 
 int convert(int q, int min, int max, vector<int>& vec)
@@ -459,28 +459,28 @@ int main()
 		tile.loadFromFile("Ztep.png");
 	}
 	if (v == 1) {
-		tile.loadFromFile("тер.png");
+		tile.loadFromFile("Е€ДєД‘.png");
 	}
 
 	Sprite till(tile);
 	float currentFrame = 0;
 	Font fot;
-	fot.loadFromFile("COld.ttf");//передаем файл шрифта
-	Text text("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
-	Text text1("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
-	text1.setFillColor(Color::Red);//покрасили текст в красный
-	text1.setStyle(Text::Bold);//жирный и подчеркнутый текст. 
-	Text text2("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
-	text2.setFillColor(Color::Red);//покрасили текст в красный
+	fot.loadFromFile("COld.ttf");//ДЏДєД‘ДєГ¤Е•ДєД› ГґЕ•Г©Г« Е™Д‘ДЌГґЕ€Е•
+	Text text("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
+	Text text1("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
+	text1.setFillColor(Color::Red);//ДЏГ®Д™Д‘Е•Е„ДЌГ«ДЌ Е€ДєД™Е„Е€ Гў Д™Д‘Е•Е„Г­Е±Г©
+	text1.setStyle(Text::Bold);//Д‡ДЌД‘Г­Е±Г© ДЌ ДЏГ®Г¤Г·ДєД‘Д™Г­ГіЕ€Е±Г© Е€ДєД™Е„Е€. 
+	Text text2("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
+	text2.setFillColor(Color::Red);//ДЏГ®Д™Д‘Е•Е„ДЌГ«ДЌ Е€ДєД™Е„Е€ Гў Д™Д‘Е•Е„Г­Е±Г©
 	Text textmenu, textmenu2, textmenu3;
 
-	textmenu.setFont(fot); // Установка шрифта для первого текстового элемента
-	textmenu.setString("Start Game"); // Установка текста "Start Game"
-	textmenu.setCharacterSize(36); // Установка размера шрифта
-	textmenu.setFillColor(Color::Red); // Установка цвета текста
+	textmenu.setFont(fot); // Г“Е„Е€Е•Г­Г®ГўД™Е• Е™Д‘ДЌГґЕ€Е• Г¤Г«Л™ ДЏДєД‘ГўГ®ДѓГ® Е€ДєД™Е„Е€Г®ГўГ®ДѓГ® ГЅГ«ДєД›ДєГ­Е€Е•
+	textmenu.setString("Start Game"); // Г“Е„Е€Е•Г­Г®ГўД™Е• Е€ДєД™Е„Е€Е• "Start Game"
+	textmenu.setCharacterSize(36); // Г“Е„Е€Е•Г­Г®ГўД™Е• Д‘Е•Г§Д›ДєД‘Е• Е™Д‘ДЌГґЕ€Е•
+	textmenu.setFillColor(Color::Red); // Г“Е„Е€Е•Г­Г®ГўД™Е• Г¶ГўДєЕ€Е• Е€ДєД™Е„Е€Е•
 	textmenu.setOutlineColor(Color::Black);
 	textmenu.setOutlineThickness(2);
-	textmenu.setPosition(150, 200); // Установка позиции текста
+	textmenu.setPosition(150, 200); // Г“Е„Е€Е•Г­Г®ГўД™Е• ДЏГ®Г§ДЌГ¶ДЌДЌ Е€ДєД™Е„Е€Е•
 
 	textmenu2.setFont(fot);
 	textmenu2.setString("Sound:");
@@ -527,7 +527,7 @@ int main()
 	int r, temp = 0;
 	int count = 0;
 
-	srand(time(0));  // Инициализация генератора случайных чисел на основе текущего времени
+	srand(time(0));  // ДЊГ­ДЌГ¶ДЌЕ•Г«ДЌГ§Е•Г¶ДЌЛ™ ДѓДєГ­ДєД‘Е•Е€Г®Д‘Е• Е„Г«ГіГ·Е•Г©Г­Е±Е‘ Г·ДЌЕ„ДєГ« Г­Е• Г®Е„Г­Г®ГўДє Е€ДєД™ГіЕЇДєДѓГ® ГўД‘ДєД›ДєГ­ДЌ
 
 	while (temp1.size() < 20) {
 		r = convert(temp, 18, 85, temp1);
@@ -595,7 +595,7 @@ int main()
 					{
 						if (textmenu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 						{
-							// Запуск игры
+							// Г‡Е•ДЏГіЕ„Д™ ДЌДѓД‘Е±
 							cout << "Starting the game..." << endl;
 							variable = 1;
 							pl.startpos = 1;
@@ -622,7 +622,7 @@ int main()
 						}
 						else if (textmenu3.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 						{
-							// Закрытие игры
+							// Г‡Е•Д™Д‘Е±Е€ДЌДє ДЌДѓД‘Е±
 							window.close();
 						}
 					}
@@ -640,27 +640,27 @@ int main()
 			{
 				if (textmenu.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
+					textmenu.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
 				}
 				else
 				{
-					textmenu.setFillColor(sf::Color::Red); // Возврат исходного цвета при уходе курсора
+					textmenu.setFillColor(sf::Color::Red); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
 				}
 				if (textmenu2.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu2.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
+					textmenu2.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
 				}
 				else
 				{
-					textmenu2.setFillColor(sf::Color::White); // Возврат исходного цвета при уходе курсора
+					textmenu2.setFillColor(sf::Color::White); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
 				}
 				if (textmenu3.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu3.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
+					textmenu3.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
 				}
 				else
 				{
-					textmenu3.setFillColor(sf::Color::White); // Возврат исходного цвета при уходе курсора
+					textmenu3.setFillColor(sf::Color::White); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
 				}
 			}
 
@@ -826,7 +826,7 @@ int main()
 
 			}
 		}
-		ostringstream playerScore;    // объявили переменную
+		ostringstream playerScore;    // Г®ГЎГєЛ™ГўДЌГ«ДЌ ДЏДєД‘ДєД›ДєГ­Г­ГіЕЈ
 		playerScore << pl.plCount;
 
 		int slov = pl.plCount;
@@ -840,30 +840,30 @@ int main()
 		
 		string word;
 		if (slov == 1) {
-			word = "пуля";
+			word = "ДЏГіГ«Л™";
 		}
 		else if (slov >= 2 && slov <= 4) {
-			word = "пули";
+			word = "ДЏГіГ«ДЌ";
 		}
 		else {
-			word = "пуль";
+			word = "ДЏГіГ«Гј";
 		}
 
 		if (pl.pos != 9) {
-			text.setString(playerScore.str() + " - " + word);//задает строку тексту
+			text.setString(playerScore.str() + " - " + word);//Г§Е•Г¤Е•ДєЕ€ Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі
 			text.setPosition(1050, 0);
 		}
-		ostringstream playerHealth;    // объявили переменную
+		ostringstream playerHealth;    // Г®ГЎГєЛ™ГўДЌГ«ДЌ ДЏДєД‘ДєД›ДєГ­Г­ГіЕЈ
 		if (pl.pos != 9) {
 		text1.setPosition(0, 0);
-		playerHealth << pl.health;	//занесли в нее число здоровья, то есть формируем строку
-		text1.setString("ХВ:" + playerHealth.str());	//задаем строку тексту и вызываем сформированную выше строку методом .str() 
+		playerHealth << pl.health;	//Г§Е•Г­ДєЕ„Г«ДЌ Гў Г­ДєДє Г·ДЌЕ„Г«Г® Г§Г¤Г®Д‘Г®ГўГјЛ™, Е€Г® ДєЕ„Е€Гј ГґГ®Д‘Д›ДЌД‘ГіДєД› Е„Е€Д‘Г®Д™Гі
+		text1.setString("ЕђГ‚:" + playerHealth.str());	//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
 		
 		if (pl.life == false) {
 				playerHealth << gameTime;
 				text1.setCharacterSize(80);
 				text1.setPosition(400, 200);
-				text1.setString("Время в секундах:" + playerHealth.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
+				text1.setString("Г‚Д‘ДєД›Л™ Гў Е„ДєД™ГіГ­Г¤Е•Е‘:" + playerHealth.str());//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
 		}
 		}
 		if (pl.pos == 9) {
@@ -872,9 +872,9 @@ int main()
 				text.setCharacterSize(80);
 				text.setPosition(450, 100);
 				text1.setPosition(450, 200);
-				text1.setString(playerScore.str() + " - " + word);//задаем строку тексту и вызываем сформированную выше строку методом .str() 
-				text.setString( " КОНЕЦ ");
-		}	//задаем строку тексту и вызываем сформированную выше строку методом .str() 	
+				text1.setString(playerScore.str() + " - " + word);//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
+				text.setString( " ДГЋГЌД№Г– ");
+		}	//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 	
 		
 		for (int i = 0; i < vr - 1; i++) {
 			if(!enemy[i].life) {
@@ -893,7 +893,7 @@ int main()
 			}
 		}
 		if (pl.textt == 1) {
-			text2.setString(" Нужно убить всех врагов на уровне ");
+			text2.setString(" ГЌГіД‡Г­Г® ГіГЎДЌЕ€Гј ГўЕ„ДєЕ‘ ГўД‘Е•ДѓГ®Гў Г­Е• ГіД‘Г®ГўГ­Дє ");
 			text2.setPosition(200, 150);
 		}
 		else {
@@ -908,7 +908,7 @@ int main()
 		}
 		if (variable == 1) {
 			window.draw(text2);
-			window.draw(text1);//рисую этот текст
+			window.draw(text1);//Д‘ДЌЕ„ГіЕЈ ГЅЕ€Г®Е€ Е€ДєД™Е„Е€
 			window.draw(text);
 			window.draw(monet);
 			window.draw(plh);
@@ -916,12 +916,7 @@ int main()
 		}
 		ofstream outfile("bullets.txt");
 		double coeff = 1 + 0.1 * pl.health;
-		cout << "Coeff " << coeff << endl;
-		cout << "PLCount" << pl.plCount << endl;
-		cout << int(pl.plCount * coeff) << endl;
-		cout << pl.plCount * coeff << endl;
-		int total = pl.plCount * coeff;
-		outfile << total << endl;
+		outfile << int(pl.plCount * coeff) << endl;
 		outfile.close();
 
 		window.display();
