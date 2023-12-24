@@ -190,13 +190,8 @@ public:
 
 		}
 		else {
-			/*for (int i = 0; i < 4; i += 0.0005 * time) {*/
 			sprite.setTextureRect(IntRect(0, 184, 40, 50));
-
-
-
 		}
-
 		sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
 		speed_x = 0;
 	}
@@ -236,8 +231,7 @@ public:
 						pos = 3;
 
 					}
-				
-					
+
 				}
 				if (Map[i][j] == ' ') {
 					if (((Map[i - 1][j] == 'p') || (Map[i - 1][j] == '9')&&(pos == 0 || pos == 2 || pos ==4))) {
@@ -273,6 +267,11 @@ public:
 	}
 };
 
+struct Snow {
+	CircleShape shape;
+	float speed;
+};
+
 
 class MusicPlayer {
 public:
@@ -292,7 +291,7 @@ public:
 	}
 
 private:
-	sf::Music m_music;
+	Music m_music;
 };
 
 
@@ -392,7 +391,7 @@ public:
 };
 
 int getRandomNumber(int min, int max) {
-	return rand() % (max - min + 1) + min; // ДѓДєГ­ДєД‘Е•Г¶ДЌЛ™ Е„Г«ГіГ·Е•Г©Г­Г®ДѓГ® Г·ДЌЕ„Г«Е• Д›ДєД‡Г¤Гі min ДЌ max
+	return rand() % (max - min + 1) + min; // генерация случайного числа между min и max
 }
 
 int convert(int q, int min, int max, vector<int>& vec)
@@ -408,8 +407,6 @@ int convert(int q, int min, int max, vector<int>& vec)
 		}
 	}
 	switch (a) {
-	case 57:
-	case 58:
 	case 60:
 	case 68:
 	case 69:
@@ -433,10 +430,15 @@ int main()
 	RenderWindow window(VideoMode(1200, 700), "Test!");
 
 
-	MusicPlayer music;
-	(music.loadMusic("last.mp3"));
-	
+	MusicPlayer music1;
+	(music1.loadMusic("last.mp3"));
 
+
+	MusicPlayer music2;
+	(music2.loadMusic("Gimn.mp3"));
+
+	Clock SnowCl;
+	vector<Snow> snows;
 
 	Texture background;
 	background.loadFromFile("back.png");
@@ -459,28 +461,28 @@ int main()
 		tile.loadFromFile("Ztep.png");
 	}
 	if (v == 1) {
-		tile.loadFromFile("Е€ДєД‘.png");
+		tile.loadFromFile("тер.png");
 	}
 
 	Sprite till(tile);
 	float currentFrame = 0;
 	Font fot;
-	fot.loadFromFile("COld.ttf");//ДЏДєД‘ДєГ¤Е•ДєД› ГґЕ•Г©Г« Е™Д‘ДЌГґЕ€Е•
-	Text text("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
-	Text text1("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
-	text1.setFillColor(Color::Red);//ДЏГ®Д™Д‘Е•Е„ДЌГ«ДЌ Е€ДєД™Е„Е€ Гў Д™Д‘Е•Е„Г­Е±Г©
-	text1.setStyle(Text::Bold);//Д‡ДЌД‘Г­Е±Г© ДЌ ДЏГ®Г¤Г·ДєД‘Д™Г­ГіЕ€Е±Г© Е€ДєД™Е„Е€. 
-	Text text2("", fot, 40);//Е„Г®Г§Г¤Е•ДєД› Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€. Г§Е•Д™ДЌГ¤Е±ГўЕ•ДєД› Гў Г®ГЎГєДєД™Е€ Е€ДєД™Е„Е€ Е„Е€Д‘Г®Д™Гі, Е™Д‘ДЌГґЕ€, Д‘Е•Г§Д›ДєД‘ Е™Д‘ДЌГґЕ€Е•(Гў ДЏДЌД™Е„ДєГ«Л™Е‘)
-	text2.setFillColor(Color::Red);//ДЏГ®Д™Д‘Е•Е„ДЌГ«ДЌ Е€ДєД™Е„Е€ Гў Д™Д‘Е•Е„Г­Е±Г©
+	fot.loadFromFile("COld.ttf");//передаем файл шрифта
+	Text text("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
+	Text text1("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
+	text1.setFillColor(Color::Red);//покрасили текст в красный
+	text1.setStyle(Text::Bold);//жирный и подчеркнутый текст. 
+	Text text2("", fot, 40);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях)
+	text2.setFillColor(Color::Red);//покрасили текст в красный
 	Text textmenu, textmenu2, textmenu3;
 
-	textmenu.setFont(fot); // Г“Е„Е€Е•Г­Г®ГўД™Е• Е™Д‘ДЌГґЕ€Е• Г¤Г«Л™ ДЏДєД‘ГўГ®ДѓГ® Е€ДєД™Е„Е€Г®ГўГ®ДѓГ® ГЅГ«ДєД›ДєГ­Е€Е•
-	textmenu.setString("Start Game"); // Г“Е„Е€Е•Г­Г®ГўД™Е• Е€ДєД™Е„Е€Е• "Start Game"
-	textmenu.setCharacterSize(36); // Г“Е„Е€Е•Г­Г®ГўД™Е• Д‘Е•Г§Д›ДєД‘Е• Е™Д‘ДЌГґЕ€Е•
-	textmenu.setFillColor(Color::Red); // Г“Е„Е€Е•Г­Г®ГўД™Е• Г¶ГўДєЕ€Е• Е€ДєД™Е„Е€Е•
+	textmenu.setFont(fot); // Установка шрифта для первого текстового элемента
+	textmenu.setString("Start Game"); // Установка текста "Start Game"
+	textmenu.setCharacterSize(36); // Установка размера шрифта
+	textmenu.setFillColor(Color::Red); // Установка цвета текста
 	textmenu.setOutlineColor(Color::Black);
 	textmenu.setOutlineThickness(2);
-	textmenu.setPosition(150, 200); // Г“Е„Е€Е•Г­Г®ГўД™Е• ДЏГ®Г§ДЌГ¶ДЌДЌ Е€ДєД™Е„Е€Е•
+	textmenu.setPosition(150, 200); // Установка позиции текста
 
 	textmenu2.setFont(fot);
 	textmenu2.setString("Sound:");
@@ -527,7 +529,7 @@ int main()
 	int r, temp = 0;
 	int count = 0;
 
-	srand(time(0));  // ДЊГ­ДЌГ¶ДЌЕ•Г«ДЌГ§Е•Г¶ДЌЛ™ ДѓДєГ­ДєД‘Е•Е€Г®Д‘Е• Е„Г«ГіГ·Е•Г©Г­Е±Е‘ Г·ДЌЕ„ДєГ« Г­Е• Г®Е„Г­Г®ГўДє Е€ДєД™ГіЕЇДєДѓГ® ГўД‘ДєД›ДєГ­ДЌ
+	srand(time(0));  // Инициализация генератора случайных чисел на основе текущего времени
 
 	while (temp1.size() < 20) {
 		r = convert(temp, 18, 85, temp1);
@@ -565,12 +567,14 @@ int main()
 	int EnTime,ElTime = 0;
 
 	int variable = 0;
-	bool isPlaying = false;
+	int  isPlaying = 1;
 
 	bool Mous_nasat = false;
+	
 
 	while (window.isOpen())
 	{
+		Time dt = SnowCl.restart();
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
 
@@ -595,39 +599,49 @@ int main()
 					{
 						if (textmenu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 						{
-							// Г‡Е•ДЏГіЕ„Д™ ДЌДѓД‘Е±
+							// Запуск игры
 							cout << "Starting the game..." << endl;
 							variable = 1;
 							pl.startpos = 1;
 
 						}
-						else if (textmenu2.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-						{
-							
-								if (isPlaying) {
-									cout << "Sound is now Off..." << endl;
-									textmenu2.setString("Sound: Off");
-									isPlaying = false;
-									music.pause();
-									
-								}
-								else {
-									cout << "Sound is now On..." << endl;
-									textmenu2.setString("Sound: On");
-									isPlaying = true;
-									music.play();
 
-								}
-							
+						if (textmenu2.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+							if (isPlaying == 1) {
+								textmenu2.setString("Sound: On - 1");
+								cout << "Playing first music..." << endl;
+								music1.play();
+								isPlaying = 2;
+								
+							}
+							else if (isPlaying == 2) {
+								textmenu2.setString("Sound: On - 2");
+								cout << "Playing second music.." << endl;
+								music1.pause();
+								music2.play();
+								isPlaying = 3;
+								
+							}
+							else {
+								cout << "Sound is now Off..." << endl;
+								textmenu2.setString("Sound: Off");
+								isPlaying = false;
+								music1.pause();
+								music2.pause();
+								isPlaying = 1;
+								
+							}
 						}
 						else if (textmenu3.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 						{
-							// Г‡Е•Д™Д‘Е±Е€ДЌДє ДЌДѓД‘Е±
+							// Закрытие игры
 							window.close();
 						}
 					}
 				}
 			}
+		
+	
 
 			else if (event.type == Event::MouseButtonReleased)
 			{
@@ -640,27 +654,27 @@ int main()
 			{
 				if (textmenu.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
+					textmenu.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
 				}
 				else
 				{
-					textmenu.setFillColor(sf::Color::Red); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
+					textmenu.setFillColor(sf::Color::Red); // Возврат исходного цвета при уходе курсора
 				}
 				if (textmenu2.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu2.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
+					textmenu2.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
 				}
 				else
 				{
-					textmenu2.setFillColor(sf::Color::White); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
+					textmenu2.setFillColor(sf::Color::White); // Возврат исходного цвета при уходе курсора
 				}
 				if (textmenu3.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y)))
 				{
-					textmenu3.setFillColor(sf::Color::Yellow); // ДЊГ§Д›ДєГ­ДєГ­ДЌДє Г¶ГўДєЕ€Е• ДЏД‘ДЌ Г­Е•ГўДєГ¤ДєГ­ДЌДЌ Д™ГіД‘Е„Г®Д‘Е•
+					textmenu3.setFillColor(sf::Color::Yellow); // Изменение цвета при наведении курсора
 				}
 				else
 				{
-					textmenu3.setFillColor(sf::Color::White); // Г‚Г®Г§ГўД‘Е•Е€ ДЌЕ„Е‘Г®Г¤Г­Г®ДѓГ® Г¶ГўДєЕ€Е• ДЏД‘ДЌ ГіЕ‘Г®Г¤Дє Д™ГіД‘Е„Г®Д‘Е•
+					textmenu3.setFillColor(sf::Color::White); // Возврат исходного цвета при уходе курсора
 				}
 			}
 
@@ -705,7 +719,7 @@ int main()
 				if (pl.rect.intersects(enemy[i].rect))
 				{
 					if (enemy[i].life) {
-						
+
 						if (pl.speed_y > 0) {
 							if (i == 5) {
 								pl.speed_y = -3;
@@ -723,7 +737,7 @@ int main()
 							}
 						}
 
-						else if (pl.health > 0 && abs(EnTime - gameTimeE.getElapsedTime().asSeconds()) >= 2) {
+						else if (pl.health > 0 && abs(EnTime - gameTimeE.getElapsedTime().asSeconds()) >= 1) {
 							if (abs(ElTime - gameTimeE.getElapsedTime().asSeconds()) >= 1) {
 								pl.health--;
 								ElTime = gameTimeE.getElapsedTime().asSeconds();
@@ -750,83 +764,113 @@ int main()
 			/*for (int i = 0; i < 2; i++) {
 				cout << pl.cot << endl;
 			}*/
-		      }
 
-		window.clear(Color(47, 79, 79));
 
-		int siz = 32;
-		for (int i = 0; i < H; i++) {
-			for (int j = 0; j < W; j++) {
-				char symbol = Map[i][j];
+			window.clear(Color(47, 79, 79));
 
-				switch (symbol) {
-				case 'k':
-					till.setTextureRect(IntRect(0, 0, siz, siz));
-					break;
-				case 'z':
-					till.setTextureRect(IntRect(96, 0, siz, siz));
-					break;
-				case 'c':
-					till.setTextureRect(IntRect(64, 0, siz, siz));
-					break;
-				case 'r':
-					till.setTextureRect(IntRect(32, 0, siz, siz));
-					break;
-				case 'w':
-					till.setTextureRect(IntRect(0, 32, siz*2, siz));
-					break;
-				case 's':
-					till.setTextureRect(IntRect(64, 32, siz * 2, siz));
-					break;
-				case 'b':
-					till.setTextureRect(IntRect(0, 64, siz, siz));
-					break;
-				case 'B':
-					till.setTextureRect(IntRect(96, 128, siz, siz));
-					break;
-				case 'C':
-					till.setTextureRect(IntRect(32, 64, siz, siz));
-					break;
-				case 'h':
-					till.setTextureRect(IntRect(64, 64, siz, siz));
-					break;
-				case 'p':
-					till.setTextureRect(IntRect(64, 96, siz, siz*2));
-					break;
-				case 'V':
-					till.setTextureRect(IntRect(0, 96, siz , siz));
-					break;
-				case 'e':
-					till.setTextureRect(IntRect(0, 128, siz, siz));
-					break;
-				case 'E':
-					till.setTextureRect(IntRect(32, 128, -siz, siz));
-					break;
-				case '1':
-					till.setTextureRect(IntRect(32, 96, siz, siz*2));
-					break;
-				case '2':
-					till.setTextureRect(IntRect(96, 64, siz, siz));
-					break;
-				case 'P':
-					till.setTextureRect(IntRect(64, 96, siz, siz * 2));
-					break;
-				case '9':
-					till.setTextureRect(IntRect(64, 160, siz, siz * 2));
-					break;
-				case 'U':
-					till.setTextureRect(IntRect(128, 96, -siz, siz));
-					break;
+			int siz = 32;
+			for (int i = 0; i < H; i++) {
+				for (int j = 0; j < W; j++) {
+					char symbol = Map[i][j];
+
+					switch (symbol) {
+					case 'k':
+						till.setTextureRect(IntRect(0, 0, siz, siz));
+						break;
+					case 'z':
+						till.setTextureRect(IntRect(96, 0, siz, siz));
+						break;
+					case 'c':
+						till.setTextureRect(IntRect(64, 0, siz, siz));
+						break;
+					case 'r':
+						till.setTextureRect(IntRect(32, 0, siz, siz));
+						break;
+					case 'w':
+						till.setTextureRect(IntRect(0, 32, siz * 2, siz));
+						break;
+					case 's':
+						till.setTextureRect(IntRect(64, 32, siz * 2, siz));
+						break;
+					case 'b':
+						till.setTextureRect(IntRect(0, 64, siz, siz));
+						break;
+					case 'B':
+						till.setTextureRect(IntRect(96, 128, siz, siz));
+						break;
+					case 'C':
+						till.setTextureRect(IntRect(32, 64, siz, siz));
+						break;
+					case 'h':
+						till.setTextureRect(IntRect(64, 64, siz, siz));
+						break;
+					case 'p':
+						till.setTextureRect(IntRect(64, 96, siz, siz * 2));
+						break;
+					case 'V':
+						till.setTextureRect(IntRect(0, 96, siz, siz));
+						break;
+					case 'e':
+						till.setTextureRect(IntRect(0, 128, siz, siz));
+						break;
+					case 'E':
+						till.setTextureRect(IntRect(32, 128, -siz, siz));
+						break;
+					case '1':
+						till.setTextureRect(IntRect(32, 96, siz, siz * 2));
+						break;
+					case '2':
+						till.setTextureRect(IntRect(96, 64, siz, siz));
+						break;
+					case 'P':
+						till.setTextureRect(IntRect(64, 96, siz, siz * 2));
+						break;
+					case '9':
+						till.setTextureRect(IntRect(64, 160, siz, siz * 2));
+						break;
+					case 'U':
+						till.setTextureRect(IntRect(128, 96, -siz, siz));
+						break;
+
+					}
+
+					if ((Map[i][j] == ' ') || (Map[i][j] == '0')) continue;
+					till.setPosition(j * siz - offsetX, i * siz - offsetY);
+					window.draw(till);
 
 				}
+			}
 
-				if ((Map[i][j] == ' ') || (Map[i][j] == '0')) continue;
-				till.setPosition(j * siz - offsetX, i * siz - offsetY);
-				window.draw(till);
 
+			if (isPlaying == 3 || isPlaying == 2) {
+
+				if (rand() % 100 < 5)
+				{
+					Snow snow;
+					snow.shape.setRadius(2);
+					snow.shape.setFillColor(Color::White);
+					snow.shape.setPosition(rand() % 1200, rand() % 30);
+					snow.speed = 100;
+					snows.push_back(snow);
+				}
+
+				for (auto& snow : snows)
+				{
+					snow.shape.move(0, snow.speed * dt.asSeconds());  // Двигаем снежинку вниз
+					if (snow.shape.getPosition().y < 600)  // Проверка на выход за нижнюю границу окна
+					{
+						window.draw(snow.shape);
+					}
+				}
+				snows.erase(remove_if(snows.begin(), snows.end(),
+					[](const Snow& snowflake) {
+						return snowflake.shape.getPosition().y >= 600;
+					}), snows.end());
 			}
 		}
-		ostringstream playerScore;    // Г®ГЎГєЛ™ГўДЌГ«ДЌ ДЏДєД‘ДєД›ДєГ­Г­ГіЕЈ
+
+
+		ostringstream playerScore;    // объявили переменную
 		playerScore << pl.plCount;
 
 		int slov = pl.plCount;
@@ -837,33 +881,33 @@ int main()
 		else {
 			slov = pl.plCount % 10;
 		}
-		
+
 		string word;
 		if (slov == 1) {
-			word = "ДЏГіГ«Л™";
+			word = "пуля";
 		}
 		else if (slov >= 2 && slov <= 4) {
-			word = "ДЏГіГ«ДЌ";
+			word = "пули";
 		}
 		else {
-			word = "ДЏГіГ«Гј";
+			word = "пуль";
 		}
 
 		if (pl.pos != 9) {
-			text.setString(playerScore.str() + " - " + word);//Г§Е•Г¤Е•ДєЕ€ Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі
+			text.setString(playerScore.str() + " - " + word);//задает строку тексту
 			text.setPosition(1050, 0);
 		}
-		ostringstream playerHealth;    // Г®ГЎГєЛ™ГўДЌГ«ДЌ ДЏДєД‘ДєД›ДєГ­Г­ГіЕЈ
+		ostringstream playerHealth;    // объявили переменную
 		if (pl.pos != 9) {
 		text1.setPosition(0, 0);
-		playerHealth << pl.health;	//Г§Е•Г­ДєЕ„Г«ДЌ Гў Г­ДєДє Г·ДЌЕ„Г«Г® Г§Г¤Г®Д‘Г®ГўГјЛ™, Е€Г® ДєЕ„Е€Гј ГґГ®Д‘Д›ДЌД‘ГіДєД› Е„Е€Д‘Г®Д™Гі
-		text1.setString("ЕђГ‚:" + playerHealth.str());	//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
+		playerHealth << pl.health;	//занесли в нее число здоровья, то есть формируем строку
+		text1.setString("ХВ:" + playerHealth.str());	//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 		
 		if (pl.life == false) {
 				playerHealth << gameTime;
 				text1.setCharacterSize(80);
-				text1.setPosition(400, 200);
-				text1.setString("Г‚Д‘ДєД›Л™ Гў Е„ДєД™ГіГ­Г¤Е•Е‘:" + playerHealth.str());//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
+				text1.setPosition(300, 200);
+				text1.setString("Время в секундах:" + playerHealth.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 		}
 		}
 		if (pl.pos == 9) {
@@ -872,9 +916,9 @@ int main()
 				text.setCharacterSize(80);
 				text.setPosition(450, 100);
 				text1.setPosition(450, 200);
-				text1.setString(playerScore.str() + " - " + word);//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 
-				text.setString( " ДГЋГЌД№Г– ");
-		}	//Г§Е•Г¤Е•ДєД› Е„Е€Д‘Г®Д™Гі Е€ДєД™Е„Е€Гі ДЌ ГўЕ±Г§Е±ГўЕ•ДєД› Е„ГґГ®Д‘Д›ДЌД‘Г®ГўЕ•Г­Г­ГіЕЈ ГўЕ±Е™Дє Е„Е€Д‘Г®Д™Гі Д›ДєЕ€Г®Г¤Г®Д› .str() 	
+				text1.setString(playerScore.str() + " - " + word);//задаем строку тексту и вызываем сформированную выше строку методом .str() 
+				text.setString( " КОНЕЦ ");
+		}	//задаем строку тексту и вызываем сформированную выше строку методом .str() 	
 		
 		for (int i = 0; i < vr - 1; i++) {
 			if(!enemy[i].life) {
@@ -893,7 +937,7 @@ int main()
 			}
 		}
 		if (pl.textt == 1) {
-			text2.setString(" ГЌГіД‡Г­Г® ГіГЎДЌЕ€Гј ГўЕ„ДєЕ‘ ГўД‘Е•ДѓГ®Гў Г­Е• ГіД‘Г®ГўГ­Дє ");
+			text2.setString(" Нужно убить всех врагов на уровне ");
 			text2.setPosition(200, 150);
 		}
 		else {
@@ -908,7 +952,7 @@ int main()
 		}
 		if (variable == 1) {
 			window.draw(text2);
-			window.draw(text1);//Д‘ДЌЕ„ГіЕЈ ГЅЕ€Г®Е€ Е€ДєД™Е„Е€
+			window.draw(text1);//рисую этот текст
 			window.draw(text);
 			window.draw(monet);
 			window.draw(plh);
@@ -916,9 +960,13 @@ int main()
 		}
 		ofstream outfile("bullets.txt");
 		double coeff = 1 + 0.1 * pl.health;
-		outfile << int(pl.plCount * coeff) << endl;
+		/*cout << "Coeff " << coeff << endl;
+		cout << "PLCount" << pl.plCount << endl;
+		cout << int(pl.plCount * coeff) << endl;
+		cout << pl.plCount * coeff << endl;*/
+		int total = pl.plCount * coeff;
+		outfile << total << endl;
 		outfile.close();
-
 		window.display();
 	}
 
